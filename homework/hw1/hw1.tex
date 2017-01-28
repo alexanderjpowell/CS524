@@ -1,0 +1,256 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Alexander Powell
+% CSCI 524 - Computer Architecture
+% Prof: Adwait Jog
+% Homework #1
+% Due: 09.08.2016
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt]{article} %
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{psfrag}
+\usepackage{amsmath,amssymb}
+\usepackage{enumerate}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9in}
+
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\points}[1]{{\it (#1 Points)}}
+\newcommand{\tpoints}[1]{{\bf #1 Total points.}}
+
+\title{CSCI 524 -- Computer Architecture \\
+Homework 1 \\
+{\large{\bf Due: September 8, 2016}}}
+\date{}
+\author{Alexander Powell}
+
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+
+\item 
+
+(4 pts) Computer A executes the MIPS ISA and computer B executes the x86 ISA. On average, programs execute $1.5$ times as many MIPS instructions as x86 instructions. Computer A has an average CPI of $1.5$ and computer B an average CPI of $3$. If computer B runs at a 3GHz clock frequency, what speed does computer A have to run at to be at least as fast as computer B?
+
+\textbf{Solution: }
+Since the equation for CPU time is:
+$$ \text{CPU Time} = \text{Instruction Count} \times \text{CPI} \times \text{Clock Cycle}, $$
+and the clock cycle for computer B can be converted to 333.3 psec, we can set up the following equality:
+$$ 1.5 \times I \times 1.5 \times CC = I \times 3 \times 333.3\text{ psec} $$
+The first $1.5$ on the left side of the equation is added to account for the fact that the MIPS ISA executes $1.5$ times as many instructions as x86.  Also, $I$ stands for the number of instructions that each computer will execute.  By simplifying the equation we end up with the following which is trivial to solve:
+$$ 1.5 \times 1.5 \times CC = 3 \times 333.3 $$
+$$ 2.25 \times CC = 3 \times 333.3 $$
+$$ CC = \dfrac{3 \times 333.3}{2.25} = 444.4 $$
+Again, by taking the reciprocal we have $\dfrac{1}{444.4\text{ psec}} = 2.25 \text{ GHz}$.  Therefore, computer A must run at 2.25 GHz to be at least as fast as computer B.  
+
+\item 
+
+(7 pts) Assume a typical program has the following instruction type breakdown:
+\begin{enumerate} []
+\item 30\% loads
+\item 10\% stores
+\item 40\% adds (adds, compares, and, sub, etc.)
+\item 8\% multiplies
+\item 2\% divides
+\item 8\% conditional branches (assume perfect prediction)
+\item 2\% unconditional branches (jumps, calls, returns, etc.)
+\end{enumerate}
+Assume the processor that this program will be running on has the following instruction latencies (CPIs):
+\begin{enumerate} []
+\item loads: 4 cycles 
+\item stores: 6 cycles 
+\item adds: 2 cycles 
+\item multiplies: 12 cycles 
+\item divides: 40 cycles
+\item conditional branches: 4 cycles
+\item unconditional branches: 2 cycles
+\end{enumerate}
+If you could pick one type of instruction to make twice as fast (half as many cycles to complete) in the next-generation of this processor, which instruction type would you pick? Why?
+
+\textbf{Solution: }
+
+First, let's begin by calculating the baseline summation of frequencies multiplied by their respective CPIs.  The results are shown in the following table.  
+
+\begin{center}
+\begin{tabular}{| c | c | c | c |}
+\hline
+Operation & Frequency & CPI & Freq $\times$ CPI \\
+\hline
+Loads & 30\% & 4 & 1.2 \\
+Stores & 10\% & 6 & 0.6 \\
+Adds & 40\% & 2 & 0.8 \\
+Multiplies & 8\% & 12 & 0.96 \\
+Divides & 2\% & 40 & 0.8 \\
+Conditional Branch & 8\% & 4 & 0.32 \\
+Unconditional Branch & 2\% & 2 & 0.04 \\
+\hline
+$\Sigma$ & & & 4.72 \\
+\hline
+\end{tabular}
+\end{center}
+
+The next table shows the results of the summation after each respective operation's cycles are halved.  
+\begin{center}
+\begin{tabular}{| c | c |}
+\hline
+Operation & $\Sigma \text{ } Freq \times CPI$ \\
+\hline
+Load & 4.12 \\
+Store & 4.42 \\
+Adds & 4.32 \\
+Multiplies & 4.24 \\
+Divides & 4.32 \\
+Conditional Branch & 4.56 \\
+Unconditional Branch & 4.7 \\
+\hline
+\end{tabular}
+\end{center}
+
+Based on the results of this table, you should choose to make the load instructions twice as fast in the next generation of processor because it will increase performance the most (and therefore decrease execution time the most).  
+
+\item 
+
+(9 pts) Consider three different processors P1, P2, and P3 executing the same instruction set. P1 has a 3.0 GHz clock rate and a CPI of 1.5. P2 has a 2.5 GHz clock rate and a CPI of 1.0. P3 has a 4.0 GHz clock rate and has a CPI of 2.2.
+\begin{enumerate} [a]
+\item Which processor has the highest performance expressed in instructions per second?
+
+\textbf{Solution: }
+
+$P_1: \dfrac{3 \text{ GHz}}{1.5} \times 10^9 = 2 \times 10^9 \text{ instructions per second}$
+
+$P_2: \dfrac{2.5 \text{ GHz}}{1} \times 10^9 = 2.5 \times 10^9 \text{ instructions per second}$
+
+$P_3: \dfrac{4 \text{ GHz}}{2.2} \times 10^9 \approx 1.82 \times 10^9 \text{ instructions per second}$
+
+Therefore, based on the calculations above, $P_2$ has the highest performance expressed in instructions per second.  
+
+\item If the processors each execute a program in 10 seconds, find the number of cycles and the number of instructions.
+
+\textbf{Solution: }
+
+\text{Cycles: }
+
+$P_1: $ $10 \text{ sec} \times 3 \text{ GHz} = 30 \times 10^9 \text{ Cycles}$
+
+$P_2: $ $10 \text{ sec} \times 2.5 \text{ GHz} = 25 \times 10^9 \text{ Cycles}$
+
+$P_3: $ $10 \text{ sec} \times 4 \text{ GHz} = 40 \times 10^9 \text{ Cycles}$
+
+\text{Number of Instructions: }
+
+$P_1:$ $\dfrac{3 \text{ GHz} \times 10 \text{ sec}}{1.5} = 20 \times 10^9 \text{ instructions. }$
+
+$P_2:$ $\dfrac{2.5 \text{ GHz} \times 10 \text{ sec}}{1} = 25 \times 10^9 \text{ instructions. }$
+
+$P_3:$ $\dfrac{4 \text{ GHz} \times 10 \text{ sec}}{2.2} \approx 18.2 \times 10^9 \text{ instructions. }$
+
+\item We are trying to reduce the execution time by 30\% but this leads to an increase of 20\% in the CPI. What clock rate should we have to get this time reduction?
+
+\textbf{Solution: }
+
+Based on the percentages given, we can model this with the following equation:
+$$ 0.7 \times \text{CPU Time} = \dfrac{\text{Instruction Count} \times \text{CPI} \times 1.2}{\text{Clock Rate}} $$
+So, to get the new clock rates for each processor we must multiply the old clock rate with the ratio $\frac{1.2}{0.7}$.  Therefore, we have:
+
+$P_1: \dfrac{1.2}{0.7} \times 3 = 5.14286 \text{ GHz}$
+
+$P_2: \dfrac{1.2}{0.7} \times 2.5 = 4.28571 \text{ GHz}$
+
+$P_3: \dfrac{1.2}{0.7} \times 4 = 6.85714 \text{ GHz}$
+
+\end{enumerate}
+
+\item 
+
+(15 pts) Consider two different implementations of the same instruction set architecture. The instructions can be divided into four classes according to their CPI (class A, B, C, and D). P1 with a clock rate of 2.5 GHz and CPIs of 1, 2, 3, and 3, and P2 with a clock rate of 3.0 GHz and CPIs of 2, 2, 2, and 2.  Given a program with a dynamic instruction count of 1.0E6 instructions divided into classes as follows: 10\% class A, 20\% class B, 50\% class C, and 20\% class D, which is faster: P1 or P2?
+
+\begin{enumerate} [a]
+\item What is the global CPI for each implementation?
+
+\textbf{Solution: }
+
+For $P_1$, the global CPI can be calculated as follows:
+
+$1 \times 0.1 + 2 \times 0.2 + 3 \times 0.5 + 3 \times 0.2 = 2.6.$
+
+For $P_2$, the global CPI can be calculated as follows:
+
+$2 \times 0.1 + 2 \times 0.2 + 2 \times 0.5 + 2 \times 0.2 = 2.$
+
+\item Find the clock cycles required in both cases.
+
+\textbf{Solution: }
+
+For $P_1$, the time per cycle can be expressed as $\dfrac{1}{2.5} \times 10^9 = 400 \text{ psec}$.  Using this, the total execution time is 
+$$ 400 \times 10^{-12} \times 10^6 \times 2.6 = 1040 \text{ seconds.} $$
+
+For $P_2$, the time per cycle can be expressed as $\dfrac{1}{3} \times 10^9 = 333.3 \text{ psec}$.  Using this, the total execution time is 
+$$ 333.3 \times 10^{-12} \times 10^6 \times 2 = 666.6 \text{ seconds.} $$
+
+Therefore, $P_2$ is the faster processor.  
+
+\end{enumerate}
+
+\item 
+
+(15 pts) Assume a program requires the execution of $50 × 10^6$ FP instructions, $110 × 10^6$ INT instructions, $80 × 10^6$ L/S instructions, and $16 × 10^6$ branch instructions. The CPI for each type of instruction is 1, 1, 4, and 2, respectively. Assume that the processor has a 2.0 GHz clock rate.
+\begin{enumerate} [a]
+\item By how much must we improve the CPI of FP instructions if we want the program to run two times faster?
+
+\textbf{Solution: }
+
+First, we need to calculate how long it would normally take the processor to run the program.  We use the performance equation to do this.  So, the execution time of the program can be expressed as:
+$$ \dfrac{(50 \times 10^6) + (110 \times 10^6) + (4 \times 80 \times 10^6) + (2 \times 16 \times 10^6)}{2 \text{ GHz}} = 256 \times 10^6 \text{ psec.} $$
+
+So, two find the new CPI for FP instructions for the program to run twice as fast, we set the original equation equal to $128 \times 10^6$, since that's half of the execution time, and solve for the new CPI:
+$$ \dfrac{(CPI_{NEW} \times 50 \times 10^6) + (110 \times 10^6) + (4 \times 80 \times 10^6) + (2 \times 16 \times 10^6)}{2 \text { GHz}} = 128 \times 10^6 $$
+$$ CPI_{NEW} = \dfrac{-103}{25} $$
+Since the new CPI value we found is negative, and that's the only solution to the equation, we conclude that it is not possible to reduce the CPI enough to make the program run twice as fast.  
+
+\item By how much must we improve the CPI of L/S instructions if we want the program to run two times faster?
+
+\textbf{Solution: }
+
+Again, twice as fast would mean running the program in $128 \times 10^6 \text{ psec}$.  
+$$ \dfrac{(50 \times 10^6) + (110 \times 10^6) + (CPI_{NEW} \times 80 \times 10^6) + (2 \times 16 \times 10^6)}{2 \text { GHz}} = 128 \times 10^6 $$
+$$ CPI_{NEW} = 0.8 $$
+Therefore, the CPI of the L/S instructions would need to go from 4 to 0.8, for the program to run twice as fast.  
+
+\item By how much is the execution time of the program improved if the CPI of INT and FP instructions is reduced by 40\% and the CPI of L/S and Branch is reduced by 30\%?
+
+\textbf{Solution: }
+
+If the CPI of INT and FP instructions is reduced by 40\%, those two new CPIs will both be 0.6 and if L/S and Branch CPIs are reduced by 30\% the new CPIs will be 2.8 and 1.4 respectively.  
+
+Using these new values, the execution time can be calculated as follows:
+$$ \dfrac{(0.6 \times 50 \times 10^6) + (0.6 \times 110 \times 10^6) + (2.8 \times 80 \times 10^6) + (1.4 \times 16 \times 10^6)}{2 \text{ GHz}} = 171.2 \times 10^6 \text{ psec.}$$
+
+Therefore, we can say that this new time is $$ \dfrac{256 \times 10^6 \text{ psec}}{171.2 \times 10^6 \text{ psec}} \approx 1.5 $$ times faster than the original time.  
+
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

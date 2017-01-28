@@ -1,0 +1,90 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Alexander Powell
+% CSCI 524 - Computer Architecture
+% Prof: Adwait Jog
+% Homework #2
+% Due: 09.20.2016
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt]{article} %
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{psfrag}
+\usepackage{amsmath,amssymb}
+\usepackage{enumerate}
+
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9in}
+
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\points}[1]{{\it (#1 Points)}}
+\newcommand{\tpoints}[1]{{\bf #1 Total points.}}
+
+\title{CSCI 524 -- Computer Architecture \\
+Homework 1 \\
+{\large{\bf Due: September 20, 2016}}}
+\date{}
+\author{Alexander Powell}
+
+
+\begin{document}
+\maketitle
+\begin{itemize}
+
+\item % Part 1
+
+\textbf{Part \#1}
+
+\begin{enumerate}
+\item 
+
+The output from the program is \begin{verbatim}The sum from 0 .. 100 is :171700:\end{verbatim}
+
+\item 
+
+The value in register \$t7 in hex is 0x00002710, which can be converted to $10,000_{10}$.  
+
+\item 
+
+Line 16 gets executed $51$ times.  
+
+\item 
+
+On the first iteration, the only register that changes in the PC, or program counter.  None of the other registers change on the first iteration because in the instruction \begin{verbatim}mul $t7, $t6, $t6\end{verbatim} the value of the register \$t6 is zero, and the value of \$t7 is already zero as well.  However, on later iterations of the loop \$t7's value will change as double \$t6's value gets loaded into it.  
+
+\end{enumerate}
+
+\item % Part 2
+
+\textbf{Part \#2}
+
+See attached code.  
+
+\item % Part 3
+
+\textbf{Part \#3}
+
+See attached code.
+
+\end{itemize}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
